@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="5dp">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/ArtsEntry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:text="ARTS" />
+
+            <RadioButton
+                android:id="@+id/OdcEntry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.12"
+                android:text="ODC"
+                android:checked="true"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/ShowArtsEntries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:onClick="ShowSwipes"
+            android:text="@string/button_ShowSwipes" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/ArtsOdcIn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:onClick="RecordArtsOrOdcIn"
+            android:text="@string/button_SwipeIn" />
+
+        <Button
+            android:id="@+id/ArtsOdcOut"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:onClick="RecordArtsOrOdcOut"
+            android:text="@string/button_SwipeOut" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:text="Amount" />
+
+        <EditText
+            android:id="@+id/Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:text="Payment Mode" />
+
+        <EditText
+            android:id="@+id/PaymentMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:text="Description" />
+
+        <EditText
+            android:id="@+id/Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/EntryExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:onClick="RecordExpense"
+            android:text="@string/button_ExpEntry" />
+
+        <Button
+            android:id="@+id/ShowExpEntries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:onClick="ShowExpenses"
+            android:text="@string/button_ShowExp" />
+
+        <Button
+            android:id="@+id/ExportExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:onClick="ExportExpense"
+            android:text="@string/button_ExportExpense" />
+
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/SelEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:onClick="UpdateTimeSheet"
+            android:text="@string/button_SelEntry" />
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_span="3"
+            android:id="@+id/ShowEntry"
+            android:text="" />
+    </TableRow>
+</TableLayout>

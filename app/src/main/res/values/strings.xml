@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My PA</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send ></string>
+    <string name="button_SwipeIn">Swipe In</string>
+    <string name="button_SwipeOut">Swipe Out</string>
+    <string name="button_ShowSwipes">Show Swipe Data</string>
+    <string name="button_ShowExp">Show Expenses</string>
+    <string name="button_ExpEntry">Enter Expense</string>
+    <string name="button_ExportExpense">Export Entries</string>
+    <string name="button_SelEntry">Select Entry</string>
+</resources>

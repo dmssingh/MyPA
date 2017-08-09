@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_column="1"
+            android:layout_span="3"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:id="@+id/fromDate"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1" />
+
+        <EditText
+            android:id="@+id/toDate"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+        <Button
+            android:id="@+id/ShowArtsEntries"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:onClick="ShowSwipes"
+            android:text="@string/button_ShowSwipes" />
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/timeSheetData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:maxLines="25"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/black"
+            android:layout_column="1"
+            android:layout_span="3"/>
+    </TableRow>
+</TableLayout>
