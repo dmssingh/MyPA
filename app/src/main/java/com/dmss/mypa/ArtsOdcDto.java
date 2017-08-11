@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public final class ArtsOdcDto {
+    public int id;
     public String ArtsOrOdc;
     public String SwipeInOrOut;
     public String SwipeDateString;

@@ -9,4 +9,5 @@
     <string name="button_ExpEntry">Enter Expense</string>
     <string name="button_ExportExpense">Export Entries</string>
     <string name="button_SelEntry">Select Entry</string>
+    <string name="button_UpdateEntry">Update Entry</string>
 </resources>

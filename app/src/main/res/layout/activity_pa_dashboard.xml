@@ -152,18 +152,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:onClick="UpdateTimeSheet"
+            android:onClick="SelectTimeSheetEntry"
             android:text="@string/button_SelEntry" />
+        <Button
+            android:id="@+id/UpdateEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:onClick="UpdateTimeSheetEntry"
+            android:text="@string/button_UpdateEntry" />
     </TableRow>
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_span="3"
-            android:id="@+id/ShowEntry"
+            android:id="@+id/TimeSheetId"
+            android:text="" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_span="2"
+            android:id="@+id/TimeSheetDate"
             android:text="" />
     </TableRow>
 </TableLayout>

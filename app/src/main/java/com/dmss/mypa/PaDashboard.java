@@ -11,8 +11,7 @@ import android.widget.TextView;
 public class PaDashboard extends AppCompatActivity {
     public boolean ShowArtsEntries = true;
     RadioButton ArtsEntry;
-    EditText Amount, PaymentMode, Description;
-    TextView ShowEntry;
+    EditText Amount, PaymentMode, Description, TimeSheetId, TimeSheetDate;
 
     PersonalAssistDbAdaptor PaDbAdaptor;
 
@@ -25,7 +24,8 @@ public class PaDashboard extends AppCompatActivity {
         PaymentMode = (EditText) findViewById(R.id.PaymentMode);
         Description = (EditText) findViewById(R.id.Description);
 
-        ShowEntry = (TextView) findViewById(R.id.ShowEntry);
+        TimeSheetId = (EditText) findViewById(R.id.TimeSheetId);
+        TimeSheetDate = (EditText) findViewById(R.id.TimeSheetDate);
 
         PaDbAdaptor = new PersonalAssistDbAdaptor(this);
     }
@@ -65,8 +65,12 @@ public class PaDashboard extends AppCompatActivity {
         PaDbAdaptor.exportExpenseTable(this.getApplicationContext(), PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME);
     }
 
-    public void UpdateTimeSheet(View view) {
-        ShowEntry.setText(PaDbAdaptor.getEntryDate(83));
-        //PaDbAdaptor.UpdateTimeSheet(83, "Mon Aug 07 17:40:00 GMT+05:30 2017");
+    public void SelectTimeSheetEntry(View view) {
+        int id = Integer.parseInt( TimeSheetId.getText().toString());
+        TimeSheetDate.setText(PaDbAdaptor.getEntryDate(id));
+    }
+    public void UpdateTimeSheetEntry(View view) {
+        int id = Integer.parseInt( TimeSheetId.getText().toString());
+        PaDbAdaptor.UpdateTimeSheet(id, TimeSheetDate.getText().toString());
     }
 }

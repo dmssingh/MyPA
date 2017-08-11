@@ -70,6 +70,8 @@ public class PersonalAssistDbAdaptor {
             while (artsTableCursor.moveToNext()) {
                 ArtsOdcDto swipeData = new ArtsOdcDto();
 
+                swipeData.id= artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet._ID));
+
                 int entryTypeFlag = artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY));
                 swipeData.ArtsOrOdc = entryTypeFlag == 1 ? ArtsOdcDto.ArtsEntry : ArtsOdcDto.OdcEntry;
 

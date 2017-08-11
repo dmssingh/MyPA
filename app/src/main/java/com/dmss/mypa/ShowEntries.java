@@ -23,6 +23,7 @@ public class ShowEntries extends AppCompatActivity {
     //    CalendarView FromDate, ToDate;
     EditText FromDate, ToDate;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+    private static final String ColumSep = "  ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +107,9 @@ public class ShowEntries extends AppCompatActivity {
             } catch (Exception ex) {
                 Log.i(TAG, "ShowArtsAndOdcEntries: " + ex.getMessage());
             }
-            swipeEntryText.append(String.format("%s\t%s\t%s %n", dateFormatter.format(swipe.SwipeDate)
-                    , swipe.ArtsOrOdc, swipe.SwipeInOrOut));
+
+            swipeEntryText.append(String.format("%d  %s  %s  %s  %n", swipe.id,
+                    dateFormatter.format(swipe.SwipeDate) ,swipe.ArtsOrOdc, swipe.SwipeInOrOut));
         }
 
         Calendar calendar = Calendar.getInstance();
