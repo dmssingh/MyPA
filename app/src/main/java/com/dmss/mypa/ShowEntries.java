@@ -24,6 +24,7 @@ public class ShowEntries extends AppCompatActivity {
     EditText FromDate, ToDate;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     private static final String ColumSep = "  ";
+	boolean ShowArtsEntries = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +58,11 @@ public class ShowEntries extends AppCompatActivity {
 
         SwipeDataTextContainer.setMovementMethod(new ScrollingMovementMethod());
         //if(MainActivity.Sho)
-        boolean ShowArtsEntries = getIntent().getExtras().getBoolean("ShowArtsEntries");
+        ShowArtsEntries = getIntent().getExtras().getBoolean("ShowArtsEntries");
         if (ShowArtsEntries)
             ShowArtsAndOdcEntries();
         else
             ShowExpenseEntries();
-    }
-
-    public void ShowSwipes(View view) {
-        ShowArtsAndOdcEntries();
     }
 
     private void ShowArtsAndOdcEntries() {
@@ -77,6 +74,7 @@ public class ShowEntries extends AppCompatActivity {
             Log.i(TAG, "ShowArtsAndOdcEntries - parse date str: " + pe.getMessage());
         }
         List<ArtsOdcDto> swipeEntries = PaDbAdaptor.GetArtsAndOdcEntries(fromDate, toDate);
+		swipeEntries.sort(Comparator.comparing(ArtsOdcDto.SwipeDate));
         StringBuffer swipeEntryText = new StringBuffer();
         Date ArtsIn = null, ArtsOut = null, OdcIn = null, OdcOut;
         long OdcInMilliSecs = 0;
@@ -133,10 +131,16 @@ public class ShowEntries extends AppCompatActivity {
     }
 
     private void ShowExpenseEntries() {
-        Calendar calendar = Calendar.getInstance();
-        Date forDate = calendar.getTime();
+		Date fromDate = null, toDate = null;
+        try {
+            fromDate = dateFormatter.parse(FromDate.getText().toString());
+            toDate = dateFormatter.parse(ToDate.getText().toString());
+        } catch (ParseException pe) {
+            Log.i(TAG, "ShowExpenseEntries - parse date str: " + pe.getMessage());
+        }
 
-        List<ExpanseDto> expanseEntries = PaDbAdaptor.GetExpenseEntries(forDate);
+        List<ExpanseDto> expanseEntries = PaDbAdaptor.GetExpenseEntries(fromDate, toDate);
+		expanseEntries(Comparator.comparing(ExpanseDto.ExpenseDate));
         StringBuffer expEntryText = new StringBuffer();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy kk:mm:ss");
         for (ExpanseDto expense : expanseEntries) {

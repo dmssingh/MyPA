@@ -67,10 +67,17 @@ public class PaDashboard extends AppCompatActivity {
 
     public void SelectTimeSheetEntry(View view) {
         int id = Integer.parseInt( TimeSheetId.getText().toString());
-        TimeSheetDate.setText(PaDbAdaptor.getEntryDate(id));
+		ArtsOdcDto swipeData = PaDbAdaptor.getEntryDate(id);
+        TimeSheetDate.setText(swipeData.SwipeDateString);
+		TimeSheetArtsOrOdc.setText(swipeData.ArtsOrOdc);
+		TimeSheetSwipeInOrOut.setText(swipeData.SwipeInOrOut);
     }
     public void UpdateTimeSheetEntry(View view) {
-        int id = Integer.parseInt( TimeSheetId.getText().toString());
-        PaDbAdaptor.UpdateTimeSheet(id, TimeSheetDate.getText().toString());
+		ArtsOdcDto swipeData = new ArtsOdcDto();
+		swipeData.id = Integer.parseInt(TimeSheetId.getText().toString());
+		swipeData.SwipeDateString = TimeSheetDate.getText().toString();
+		swipeData.ArtsOrOdc = TimeSheetArtsOrOdc.getText().toString();
+		swipeData.SwipeInOrOut = TimeSheetSwipeInOrOut.getText().toString();
+        PaDbAdaptor.UpdateTimeSheet(swipeData);
     }
 }

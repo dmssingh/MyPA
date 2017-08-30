@@ -124,7 +124,7 @@ public class PersonalAssistDbAdaptor {
         return id;
     }
 
-    public List<ExpanseDto> GetExpenseEntries(Date forDate) {
+    public List<ExpanseDto> GetExpenseEntries(Date fromDate, Date toDate) {
         SQLiteDatabase database = personalAssistDbHelper.getWritableDatabase();
         String[] columns = {PersonalAssistContract.PersonalAssistDailyExpense.COLUMN_NAME_AMOUNT,
                 PersonalAssistContract.PersonalAssistDailyExpense.COLUMN_NAME_Description,
@@ -155,8 +155,9 @@ public class PersonalAssistDbAdaptor {
                         expEntry.ExpenseDate = df.parse(expEntry.ExpenseDateString);
 
                         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date todayDate = dateFormatter.parse(dateFormatter.format(forDate));
-                        reqDatesEntry = (expEntry.ExpenseDate.compareTo(todayDate) >= 0);
+                        Date startDate = dateFormatter.parse(dateFormatter.format(fromDate));
+                        Date endDate = dateFormatter.parse(dateFormatter.format(toDate));
+                        reqDatesEntry = (expEntry.ExpenseDate.compareTo(startDate) >= 0 && expEntry.ExpenseDate.compareTo(startDate) < 0);
                     } catch (ParseException pe) {
                         Log.i(TAG, "GetExpenseEntries - parse date str: " + pe.getMessage());
                     }
@@ -220,26 +221,37 @@ public class PersonalAssistDbAdaptor {
         return file;
     }
 
-    public void UpdateTimeSheet(int id, String date) {
+    public void UpdateTimeSheet(ArtsOdcDto swipeData) {
         SQLiteDatabase database = personalAssistDbHelper.getWritableDatabase();
 
         ContentValues data = new ContentValues();
-        data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE, date);
-        database.update(PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME, data, "_id=" + id, null);
+        data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE, swipeData.SwipeDateString);
+		data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY, swipeData.ArtsOrOdc);
+		data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY, swipeData.SwipeInOrOut);
+        database.update(PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME, data, "_id=" + swipeData.id, null);
     }
 
-    public String getEntryDate(int id) {
+    public ArtsOdcDto getEntryDate(int id) {
         Cursor cursor = null;
         String date = "";
         try {
             SQLiteDatabase database = personalAssistDbHelper.getWritableDatabase();
             cursor = database.rawQuery("SELECT " + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE
                     + " FROM " + PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME + " WHERE _id=?", new String[]{id + ""});
-            if (cursor.getCount() > 0) {
+            
+			ArtsOdcDto swipeData = new ArtsOdcDto();
+			if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                date = cursor.getString(cursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE));
+				
+				int entryTypeFlag = artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY));
+                swipeData.ArtsOrOdc = entryTypeFlag == 1 ? ArtsOdcDto.ArtsEntry : ArtsOdcDto.OdcEntry;
+
+                entryTypeFlag = artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY));
+                swipeData.SwipeInOrOut = entryTypeFlag == 1 ? ArtsOdcDto.InEntry : ArtsOdcDto.OutEntry;
+
+                swipeData.SwipeDateString = cursor.getString(cursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE));
             }
-            return date;
+            return swipeData;
         } finally {
             cursor.close();
         }
