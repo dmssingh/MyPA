@@ -226,8 +226,8 @@ public class PersonalAssistDbAdaptor {
 
         ContentValues data = new ContentValues();
         data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE, swipeData.SwipeDateString);
-		data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY, swipeData.ArtsOrOdc);
-		data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY, swipeData.SwipeInOrOut);
+        data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY, swipeData.ArtsOrOdc.equals(ArtsOdcDto.ArtsEntry)?1:0);
+        data.put(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY, swipeData.SwipeInOrOut.equals(ArtsOdcDto.InEntry)?1:0);
         database.update(PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME, data, "_id=" + swipeData.id, null);
     }
 
@@ -236,9 +236,13 @@ public class PersonalAssistDbAdaptor {
         String date = "";
         try {
             SQLiteDatabase database = personalAssistDbHelper.getWritableDatabase();
-            artsTableCursor = database.rawQuery("SELECT " + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE
-                    + " FROM " + PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME + " WHERE _id=?", new String[]{id + ""});
-            
+            artsTableCursor = database.rawQuery("SELECT "
+                    + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE + ", "
+                    + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY + ", "
+                    + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY
+                    + " FROM " + PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME
+                    + " WHERE _id=?", new String[]{id + ""});
+
 			ArtsOdcDto swipeData = new ArtsOdcDto();
 			if (artsTableCursor.getCount() > 0) {
                 artsTableCursor.moveToFirst();

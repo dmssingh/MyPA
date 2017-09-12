@@ -1,5 +1,6 @@
 package com.dmss.mypa;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -12,4 +13,17 @@ public final class ExpanseDto {
     public String ExpenseDateString;
     public String Description;
     public Date ExpenseDate;
+}
+
+class ExpanseDtoDateComp implements Comparator<ExpanseDto>
+{
+    @Override
+    public int compare(ExpanseDto entry1, ExpanseDto entry2){
+        if(entry1.ExpenseDate.after(entry2.ExpenseDate)){
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
 }

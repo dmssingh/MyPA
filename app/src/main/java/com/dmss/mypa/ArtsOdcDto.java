@@ -1,5 +1,6 @@
 package com.dmss.mypa;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -19,3 +20,15 @@ public final class ArtsOdcDto {
     public static final String OutEntry= "OUT";
 }
 
+class ArtsOdcDtoDateComp implements Comparator<ArtsOdcDto>
+{
+    @Override
+    public int compare(ArtsOdcDto entry1, ArtsOdcDto entry2){
+        if(entry1.SwipeDate.after(entry2.SwipeDate)){
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
+}

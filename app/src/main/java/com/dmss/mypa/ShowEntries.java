@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class ShowEntries extends AppCompatActivity {
     PersonalAssistDbAdaptor PaDbAdaptor;
     TextView SwipeDataTextContainer;
     //    CalendarView FromDate, ToDate;
-    EditText FromDate, ToDate;
+    EditText FromDate, ToDate, ExcludeNoOfDays;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
     private static final String ColumSep = "  ";
 	boolean ShowArtsEntries = true;
@@ -45,6 +46,7 @@ public class ShowEntries extends AppCompatActivity {
 //
         FromDate = (EditText) findViewById(R.id.fromDate);
         ToDate = (EditText) findViewById(R.id.toDate);
+        ExcludeNoOfDays=(EditText) findViewById(R.id.excludeNoOfDays);
 
         Calendar calendar = Calendar.getInstance();
         Date fromDate = calendar.getTime();
@@ -82,7 +84,7 @@ public class ShowEntries extends AppCompatActivity {
             Log.i(TAG, "ShowArtsAndOdcEntries - parse date str: " + pe.getMessage());
         }
         List<ArtsOdcDto> swipeEntries = PaDbAdaptor.GetArtsAndOdcEntries(fromDate, toDate);
-		//swipeEntries.sort(Comparator.comparing(ArtsOdcDto.SwipeDate));
+        Collections.sort(swipeEntries, new ArtsOdcDtoDateComp());
         StringBuffer swipeEntryText = new StringBuffer();
         Date ArtsIn = null, ArtsOut = null, OdcIn = null, OdcOut;
         long OdcInMilliSecs = 0;
@@ -124,9 +126,16 @@ public class ShowEntries extends AppCompatActivity {
         }
         StringBuffer odcArtsDataText = new StringBuffer();
         odcArtsDataText.append(FormatToHHMMSS(OdcInMilliSecs, ArtsOdcDto.OdcEntry));
-        odcArtsDataText.append(String.format("# of Working Days %d%n", noOfArtsIns));
-        odcArtsDataText.append(OdcAverage(OdcInMilliSecs, noOfArtsIns));
-        odcArtsDataText.append(OdcShortage(OdcInMilliSecs, noOfArtsIns));
+        odcArtsDataText.append(String.format("Actual # of Working Days %d%n", noOfArtsIns));
+        int excludeNoOfDays  =0;
+        if(!ExcludeNoOfDays.getText().toString().isEmpty())
+        {
+            excludeNoOfDays  = Integer.parseInt(ExcludeNoOfDays.getText().toString());
+        }
+        int effectiveWorkingDays=noOfArtsIns-excludeNoOfDays;
+        odcArtsDataText.append(String.format("Effective # of Working Days (Actual - Excluded days) %d%n", effectiveWorkingDays));
+        odcArtsDataText.append(OdcAverage(OdcInMilliSecs, effectiveWorkingDays));
+        odcArtsDataText.append(OdcShortage(OdcInMilliSecs, effectiveWorkingDays));
         odcArtsDataText.append("\n");
 
         if (ArtsOut == null) ArtsOut = calendar.getTime();
@@ -148,7 +157,7 @@ public class ShowEntries extends AppCompatActivity {
         }
 
         List<ExpanseDto> expanseEntries = PaDbAdaptor.GetExpenseEntries(fromDate, toDate);
-		//expanseEntries(Comparator.comparing(ExpanseDto.ExpenseDate));
+        Collections.sort(expanseEntries, new ExpanseDtoDateComp());
         StringBuffer expEntryText = new StringBuffer();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy kk:mm:ss");
         for (ExpanseDto expense : expanseEntries) {
