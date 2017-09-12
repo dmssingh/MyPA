@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class PaDashboard extends AppCompatActivity {
     public boolean ShowArtsEntries = true;
     RadioButton ArtsEntry;
-    EditText Amount, PaymentMode, Description, TimeSheetId, TimeSheetDate;
+    EditText Amount, PaymentMode, Description, TimeSheetId, TimeSheetDate,TimeSheetArtsOrOdc,TimeSheetSwipeInOrOut;
 
     PersonalAssistDbAdaptor PaDbAdaptor;
 
@@ -26,6 +26,9 @@ public class PaDashboard extends AppCompatActivity {
 
         TimeSheetId = (EditText) findViewById(R.id.TimeSheetId);
         TimeSheetDate = (EditText) findViewById(R.id.TimeSheetDate);
+
+        TimeSheetArtsOrOdc = (EditText) findViewById(R.id.TimeSheetArtsOrOdc);
+        TimeSheetSwipeInOrOut = (EditText) findViewById(R.id.TimeSheetSwipeInOrOut);
 
         PaDbAdaptor = new PersonalAssistDbAdaptor(this);
     }

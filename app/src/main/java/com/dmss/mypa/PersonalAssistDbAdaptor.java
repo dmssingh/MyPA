@@ -157,7 +157,7 @@ public class PersonalAssistDbAdaptor {
                         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date startDate = dateFormatter.parse(dateFormatter.format(fromDate));
                         Date endDate = dateFormatter.parse(dateFormatter.format(toDate));
-                        reqDatesEntry = (expEntry.ExpenseDate.compareTo(startDate) >= 0 && expEntry.ExpenseDate.compareTo(startDate) < 0);
+                        reqDatesEntry = (expEntry.ExpenseDate.compareTo(startDate) >= 0 && expEntry.ExpenseDate.compareTo(endDate) < 0);
                     } catch (ParseException pe) {
                         Log.i(TAG, "GetExpenseEntries - parse date str: " + pe.getMessage());
                     }
@@ -232,16 +232,16 @@ public class PersonalAssistDbAdaptor {
     }
 
     public ArtsOdcDto getEntryDate(int id) {
-        Cursor cursor = null;
+        Cursor artsTableCursor = null;
         String date = "";
         try {
             SQLiteDatabase database = personalAssistDbHelper.getWritableDatabase();
-            cursor = database.rawQuery("SELECT " + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE
+            artsTableCursor = database.rawQuery("SELECT " + PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE
                     + " FROM " + PersonalAssistContract.PersonalAssistTimeSheet.TABLE_NAME + " WHERE _id=?", new String[]{id + ""});
             
 			ArtsOdcDto swipeData = new ArtsOdcDto();
-			if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
+			if (artsTableCursor.getCount() > 0) {
+                artsTableCursor.moveToFirst();
 				
 				int entryTypeFlag = artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ARTSENTRY));
                 swipeData.ArtsOrOdc = entryTypeFlag == 1 ? ArtsOdcDto.ArtsEntry : ArtsOdcDto.OdcEntry;
@@ -249,11 +249,11 @@ public class PersonalAssistDbAdaptor {
                 entryTypeFlag = artsTableCursor.getInt(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_INENTRY));
                 swipeData.SwipeInOrOut = entryTypeFlag == 1 ? ArtsOdcDto.InEntry : ArtsOdcDto.OutEntry;
 
-                swipeData.SwipeDateString = cursor.getString(cursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE));
+                swipeData.SwipeDateString = artsTableCursor.getString(artsTableCursor.getColumnIndex(PersonalAssistContract.PersonalAssistTimeSheet.COLUMN_NAME_ENTRYDATE));
             }
             return swipeData;
         } finally {
-            cursor.close();
+            artsTableCursor.close();
         }
     }
 }

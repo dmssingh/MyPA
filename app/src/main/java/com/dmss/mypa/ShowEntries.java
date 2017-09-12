@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -59,6 +60,13 @@ public class ShowEntries extends AppCompatActivity {
         SwipeDataTextContainer.setMovementMethod(new ScrollingMovementMethod());
         //if(MainActivity.Sho)
         ShowArtsEntries = getIntent().getExtras().getBoolean("ShowArtsEntries");
+        ShowEntries();
+    }
+
+    public void ShowSwipes(View view) {
+        ShowEntries();
+    }
+    private void ShowEntries(){
         if (ShowArtsEntries)
             ShowArtsAndOdcEntries();
         else
@@ -74,7 +82,7 @@ public class ShowEntries extends AppCompatActivity {
             Log.i(TAG, "ShowArtsAndOdcEntries - parse date str: " + pe.getMessage());
         }
         List<ArtsOdcDto> swipeEntries = PaDbAdaptor.GetArtsAndOdcEntries(fromDate, toDate);
-		swipeEntries.sort(Comparator.comparing(ArtsOdcDto.SwipeDate));
+		//swipeEntries.sort(Comparator.comparing(ArtsOdcDto.SwipeDate));
         StringBuffer swipeEntryText = new StringBuffer();
         Date ArtsIn = null, ArtsOut = null, OdcIn = null, OdcOut;
         long OdcInMilliSecs = 0;
@@ -140,7 +148,7 @@ public class ShowEntries extends AppCompatActivity {
         }
 
         List<ExpanseDto> expanseEntries = PaDbAdaptor.GetExpenseEntries(fromDate, toDate);
-		expanseEntries(Comparator.comparing(ExpanseDto.ExpenseDate));
+		//expanseEntries(Comparator.comparing(ExpanseDto.ExpenseDate));
         StringBuffer expEntryText = new StringBuffer();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy kk:mm:ss");
         for (ExpanseDto expense : expanseEntries) {
